@@ -37,8 +37,23 @@ end
 
 local function ToggleSeatbelt()
     seatbeltOn = not seatbeltOn
+    if seatbeltOn then
+    QBCore.Functions.Progressbar("putting_on_seatbelt", "Putting on Seatbelt..", 1500, false, false, {
+        disableMovement = false,
+        disableCarMovement = false,
+        disableMouse = false,
+        disableCombat = true,
+    }, {
+    }, {}, {}, function() -- Done
     TriggerEvent("seatbelt:client:ToggleSeatbelt")
     TriggerServerEvent("InteractSound_SV:PlayOnSource", seatbeltOn and "carbuckle" or "carunbuckle", 0.25)
+end, function() -- Cancel
+    -- QBCore.Functions.Notify(Lang:t("error.canceled"), 'error')
+end)
+else 
+    TriggerEvent("seatbelt:client:ToggleSeatbelt")
+    TriggerServerEvent("InteractSound_SV:PlayOnSource", seatbeltOn and "carbuckle" or "carunbuckle", 0.25)
+end
 end
 
 local function ToggleHarness()
